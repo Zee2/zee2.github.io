@@ -3,6 +3,8 @@ layout: post
 title: Hacking the LicheePi Zero: Crash Course
 ---
 
+# Hacking the LicheePi Zero: Crash Course
+
 The LicheePi Zero is a lovely, tiny single-board computer, running on the ubiquitous and low-cost Allwinner V3S platform. Unfortunately, most of the (already sparse) documentation is in Chinese, and many of the necessary files are hosted on Chinese sites that are difficult to use or access from the States. Thus, I wanted to share a guide for my English-speaking friends,serving as a concise tutorial for compiling the Linux kernel, a bootloader, and creating a root filesystem for the board.
 
 ## Background
