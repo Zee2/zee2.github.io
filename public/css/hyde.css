@@ -81,8 +81,12 @@ html {
   margin-top: 0;
   font-family: "Inter", sans-serif;
   letter-spacing: -4px;
-  line-height: 1.2rem;
+  line-height: 3.0rem;
   font-size: 3.25rem;
+}
+
+.sidebar-about {
+  line-height: 3.0rem;
 }
 
 /* Sidebar nav */
