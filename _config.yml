@@ -6,15 +6,14 @@ highlighter:      pygments
 permalink:        pretty
 
 # Setup
-title:            Hyde
-tagline:          'A Jekyll theme'
-description:      'A brazen two-column <a href="http://jekyllrb.com" target="_blank">Jekyll</a> theme that pairs a prominent sidebar with uncomplicated content. Made by <a href="https://twitter.com/mdo" target="_blank">@mdo</a>.'
+title:            Finn Sinclair
+tagline:          'VR/AR, embedded development, music, and more.'
+description:      'Studying computer engineering, with a flair for design, human-computer interaction, and human centered design.'
 url:              https://zee2.github.io/
 baseurl:          https://zee2.github.io/
 
 author:
-  name:           'Mark Otto'
-  url:            https://twitter.com/mdo
+  name:           'Finn Sinclair'
 
 paginate:         5
 
@@ -22,4 +21,4 @@ paginate:         5
 version:          2.1.0
 
 github:
-  repo:           https://github.com/poole/hyde
+  repo:           https://github.com/Zee2/zee2.github.io
