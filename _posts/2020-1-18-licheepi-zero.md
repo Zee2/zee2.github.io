@@ -40,7 +40,7 @@ Additionally, we'll be using an MicroSD card (sometimes referred to as a TF card
 
 We need to install the compiler toolchain; one pitfall I ran into was that the V3S has hardware floating point support, unlike some other Allwinner chips (F1C100S, for instance). Therefore, we have to be careful to use the `gcc-arm-linux-gnueabihf` toolchain instead of the `gcc-arm-linux-gnueabi` toolchain. Install the toolchain like so:
 
-```
+```bash
 $ sudo apt install gcc-arm-linux-gnueabihf
 ```
 
@@ -50,26 +50,26 @@ Make sure that your system is new enough that it downloads at least version >=6.
 
 First step is to compile our bootloader. We'll be using the mainline, upstream U-Boot distribution, as the V3S is well-supported and requires no extra patches or special support. Clone the U-Boot repository with
 
-```
+```bash
 $ git clone https://github.com/u-boot/u-boot.git
 $ cd u-boot
 ```
 
 You may need the swing and python-dev libraries. Install them before proceeding with the U-Boot compilation process.
 
-```
+```bash
 $ sudo apt install swig python-dev
 ```
 
 In order to compile U-Boot for our particular setup, we'll use the `configs/LicheePi_Zero_defconfig` that Lichee provides as part of the mainline U-Boot repository we just cloned.
 
-```
+```bash
 $ make CROSS_COMPILE=arm-linux-gnueabihf- LicheePi_Zero_defconfig
 ```
 
 If that works, compile the bootloader:
 
-```
+```bash
 $ make CROSS_COMPILE=arm-linux-gnueabihf-
 ```
 
@@ -81,7 +81,7 @@ If all goes well, the system should generate a file called `u-boot-sunxi-with-sp
 
 Next, we'll compile the kernel. For this, we'll need the Lichee fork of the Linux repository; they've kindly created a kernel configuration that works well on the board. It would be a long and arduous process to figure out the correct configuration on our own, so we'll use this configuration for our kernel installation. As the Linux repo is very large with a deep Git history, we'll do a shallow clone of depth=1 and only clone the particular branch we need:
 
-```
+```bash
 $ git clone --single-branch --branch="zero-5.2.y" --depth=1 https://github.com/Lichee-Pi/linux.git
 $ cd linux
 ```
@@ -90,13 +90,13 @@ This is the mainline Linux kernel, as of version 5.2, with a few changes; as I m
 
 Make the configuration by running the following command. This will parse the kernel configuration and generate a .config that the main Make process will use to compile our kernel.
 
-```
+```bash
 $ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- licheepi_zero_defconfig
 ```
 
 If this succeeds, you're ready to compile your kernel. Make note of how many threads/cores you'd like to assign to the job, and use the `-j` option to split the workload across them. For example, my system has 8 threads, so I'll use `-j8`.
 
-```
+```bash
 $ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j8 all
 ```
 
@@ -132,7 +132,7 @@ Finally, the `bootz` command boots the kernel, with three arguments specified; f
 
 Once you've created the `boot.cmd` file with these commands, we'll format this file into a `.scr` binary script file that U-Boot can use. Run the command:
 
-```
+```bash
 $ mkimage -C none -A arm -T script -d boot.cmd boot.scr
 ```
 
@@ -150,7 +150,7 @@ Download the [latest stable release of Buildroot](https://buildroot.org/download
 
 We'll select a few options for our Buildroot configuration. Run the menu-based configurator.
 
-```
+```bash
 $ make menuconfig
 ```
 
@@ -158,7 +158,7 @@ $ make menuconfig
 
 Once you've configured the Buildroot system with your favorite BusyBox utilities, build the filesystem:
 
-```
+```bash
 $ make
 ```
 
@@ -182,19 +182,19 @@ The commands are slightly different depending on whether you're using a USB-base
 
 Once you've identified your device, export the name as as shell variable for easy use later.
 
-```
+```bash
 $ export card=/dev/sdX
 ```
 
 If the card is connected as a raw MMC device, it will probably appear as `/dev/mmcblk0`. Thus, export the variable as such:
 
-```
+```bash
 $ export card=/dev/mmcblk0
 ```
 
 Wipe the card's partition table with the following command:
 
-```
+```bash
 $ sudo dd if=/dev/zero of=${card} bs=1M count=1
 ```
 
@@ -202,7 +202,8 @@ If you're not familiar with `dd`, the `bs` option indicates we'll be writing a b
 
 Next, we write the bootloader binary onto the device. Locate the `u-boot-sunxi-with-spl.bin` file we created earlier.
 
-```
+
+```bash
 $ sudo dd if=/path/to/your/binfile/u-boot-sunxi-with-spl.bin of=${card} bs=1024 seek=8
 ```
 
