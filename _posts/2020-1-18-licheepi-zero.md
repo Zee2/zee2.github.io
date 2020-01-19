@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Hacking the LicheePi Zero: Crash Course
+title: "Hacking the LicheePi Zero: Crash Course"
 ---
 
 # Hacking the LicheePi Zero: Crash Course
