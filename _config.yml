@@ -1,5 +1,5 @@
 # Dependencies
-markdown:         redcarpet
+markdown:         kramdown
 highlighter:      pygments
 
 # Permalinks
@@ -10,7 +10,6 @@ title:            Finn Sinclair
 tagline:          'VR/AR, embedded development, music, and more.'
 description:      'Studying computer engineering, with a flair for design, human-computer interaction, and human centered design.'
 url:              https://zee2.github.io/
-baseurl:          https://zee2.github.io/
 
 author:
   name:           'Finn Sinclair'
