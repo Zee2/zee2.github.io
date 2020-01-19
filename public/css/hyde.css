@@ -86,7 +86,8 @@ html {
 }
 
 .sidebar-about {
-  line-height: 3.0rem;
+  font-size: 1.0rem;
+  line-height: 1.2rem;
 }
 
 /* Sidebar nav */
