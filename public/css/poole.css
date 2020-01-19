@@ -150,14 +150,14 @@ abbr[title] {
 /* Code */
 code,
 pre {
-  font-family: Menlo, Monaco, "Courier New", monospace;
+  font-family: "Roboto Mono", Menlo, Monaco, "Courier New", monospace;
 }
 code {
   padding: .25em .5em;
   font-size: 85%;
-  color: #bf616a;
+  color: #618abf;
   background-color: #f9f9f9;
-  border-radius: 3px;
+  border-radius: 10px;
 }
 pre {
   display: block;
@@ -170,12 +170,15 @@ pre {
   white-space: pre-wrap;
   word-break: break-all;
   word-wrap: break-word;
+  border-radius: 10px;
   background-color: #f9f9f9;
+  box-shadow: 2px 2px 40px rgba(0,0,0,0.15);
 }
 pre code {
   padding: 0;
   font-size: 100%;
   color: inherit;
+  
   background-color: transparent;
 }
 
