@@ -174,7 +174,8 @@ a.sidebar-nav-item:focus {
 }
 
 .post-title {
-  letter-spacing: -4px;
+  letter-spacing: -0.2rem;
+  font-size: 2.8rem;
 }
 
 
