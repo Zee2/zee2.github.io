@@ -173,6 +173,9 @@ a.sidebar-nav-item:focus {
   }
 }
 
+.post-title {
+  letter-spacing: -4px;
+}
 
 
 /*
