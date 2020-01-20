@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: "Hacking the LicheePi Zero: Crash Course"
 ---
 
@@ -13,7 +13,7 @@ One of the main sources of reference for working with Allwinner SoC-based platfo
 
 The bootloader we'll be using is the popular Das U-Boot, a basic bootloader designed to run on pretty much anything. Because the V3S SoC is well supported, we'll be able to use the mainline, upstream U-Boot repository, with no need for any specialized Lichee or Sunxi forks.
 
-For the kernel, we'll be using the LicheePi fork of the Linux kernel. Theoretically, upstream Linux would work just fine, but I can't find a configuration file for the V3S in the upstream repository. Lichee hosts a fork that includes a configuration file that I've found to work well, so we'll use that. If you figure out the configuration file for the most recent upstream kernel, please let me know, and I can update this! Ideally, we ought to use the upstream versions of both U-Boot and the kernel, but we'll settle for just using upstram U-Boot for now, and using Lichee's Linux fork.
+For the kernel, we'll be using the LicheePi fork of the Linux kernel. Theoretically, upstream Linux would work just fine, but I can't find a configuration file for the V3S in the upstream repository. Lichee hosts a fork that includes a configuration file that I've found to work well, so we'll use that. If you figure out the configuration file for the most recent upstream kernel, please let me know, and I can update this! Ideally, we ought to use the upstream versions of both U-Boot and the kernel, but we'll settle for just using upstream U-Boot for now, and using Lichee's Linux fork.
 
 You should be using a relatively up-to-date version of Linux on your workstation; it's possible to do some of this on Windows, but certain tasks like compiling U-Boot and the kernel are much more difficult on Windows. Personally, I try and use WSL for most tasks on my Windows workstation, but even WSL won't be up to the task today. Either run a VM or create a Linux partition. You won't need much disk space for this, the minimum disk space allocation should be fine.
 

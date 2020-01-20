@@ -15,9 +15,11 @@ baseurl:          /
 author:
   name:           'Finn Sinclair'
 
+gem: [jekyll-paginate, jekyll-gists]
+
 plugins:
   - jekyll-paginate
-paginate:         5
+paginate:         10
 
 # Custom vars
 version:          2.1.0
