@@ -268,13 +268,13 @@ For those unaware, the `sfdisk` command behaves a little weirdly; you'll type in
 
 Creating the filesystems themselves is slightly different depending on whether you've mounted the SD card through a USB reader or as an MMC block device, so, only execute the one command that is relevant to your system.
 
-### *Either* MMC:
+#### *Either* MMC:
 ```bash
 $ mkfs.vfat ${card}p1
 $ mkfs.ext4 ${card}p2
 ```
 
-### *or* USB:
+#### *or* USB:
 ```bash
 $ mkfs.vfat ${card}1
 $ mkfs.ext4 ${card}2
@@ -283,11 +283,11 @@ $ mkfs.ext4 ${card}2
 Now that we have the partitions created, and the filesystems created within, it's time to copy our files onto these filesystems. First, we mount the SD card's boot partition to our host system. Again, the device name is slightly different depending on whether you're using a USB reader or not; only execute one of these commands.
 
 
-### *Either* MMC:
+#### *Either* MMC:
 ```bash
 $ sudo mount ${card}p1 /mnt/
 ```
-### *or* USB:
+#### *or* USB:
 ```bash
 $ sudo mount ${card}1 /mnt/
 ```
@@ -311,11 +311,11 @@ At this point, you can actually remove the SD card, place it in your device, and
 
 Next, we can mount the main ext4 partition and copy the rootfs we created.
 
-### *Either* MMC:
+#### *Either* MMC:
 ```bash
 $ sudo mount ${card}p2 /mnt/
 ```
-### *or* USB:
+#### *or* USB:
 ```bash
 $ sudo mount ${card}2 /mnt/
 ```
@@ -353,7 +353,7 @@ sync
 sudo umount /dev/
 ```
 
-### FTDI/UART
+## FTDI/UART
 
 The time has come; we can now boot our system and see the fruits of our effort. Plug in and install your FTDI breakout (or other serial adapter solution) on the workstation. We'll be using `minicom` as a feature-rich and easy-to-use serial monitor; there are a plethora of other ways to talk to a serial port, but I've found `minicom` to be excellent. Install it with your package manager of choice if you don't already have it.
 
@@ -372,5 +372,7 @@ Run `minicom` and configure the terminal to use `/dev/ttyUSB0` (for an FTDI brea
 +-----------------------------------------------------------------------+
 ```
 Once the serial port has been configured, connect your serial adapter to the board. Look for the pins labeled **U0T** and **R**. These are the Tx and Rx pins, respectively, of the default UART0. Connect the serial adapter (Tx to Rx, and Rx to Tx), and plug the LicheePi Zero into USB power.
+
+![Location of UART0 on LicheePi Zero](../images/uart0.jpg)
 
 If everything is normal, you should first see the U-Boot terminal briefly, before it auto-boots into our system. You should see a string of kernel boot messages, before you're dumped to a root terminal.
