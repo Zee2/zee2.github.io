@@ -11,9 +11,11 @@ title: Home
         {{ post.title }}
       </a>
     </h1>
-
-    <span class="post-date">{{ post.date | date_to_string }}</span>
-
+    <div class="date-header-thing">
+      <img class="inline-block-child" src="/images/circles.svg" width=200px>
+      <span class="post-date inline-block-child">{{ post.date | date_to_string }}</span>
+    </div>
+    
     {{ post.content }}
   </div>
   {% endfor %}

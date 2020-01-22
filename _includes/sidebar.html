@@ -1,4 +1,4 @@
-<div class="sidebar">
+<div class="sidebar dots">
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
       <h1>
@@ -26,11 +26,10 @@
         {% endif %}
       {% endfor %}
 
-      <a class="sidebar-nav-item" href="{{ site.github.repo }}/archive/v{{ site.version }}.zip">Download</a>
-      <a class="sidebar-nav-item" href="{{ site.github.repo }}">GitHub project</a>
+      
       <span class="sidebar-nav-item">Currently v{{ site.version }}</span>
-    </nav>
-
-    <p>&copy; {{ site.time | date: '%Y' }}. All rights reserved.</p>
+      <p>&copy; {{ site.time | date: '%Y' }}. All rights reserved.</p>
+      
+      {% include social.html %}
   </div>
 </div>
