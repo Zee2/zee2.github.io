@@ -422,7 +422,7 @@ $ chmod +x /path/to/your/script/your_script
 At the end of the file named `rcS` in `/etc/init.d`, append the line
 
 ```bash
-./etc/init.d/your_script &
+./path/to/your/script/your_script &
 ```
 
 Save the file and restart the device. Your script should now begin running, even before root logs in. If your script was my blinky script above, you should be able to see the wonderful blinky lightshow immediately.
