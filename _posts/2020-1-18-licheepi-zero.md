@@ -376,3 +376,53 @@ Once the serial port has been configured, connect your serial adapter to the boa
 ![Location of UART0 on LicheePi Zero](/images/uart0.jpg)
 
 If everything is normal, you should first see the U-Boot terminal briefly, before it auto-boots into our system. You should see a string of kernel boot messages, before you're dumped to a root terminal.
+
+If you'd like to sanity check your boot logs against what I have, [please see this Gist](https://gist.github.com/Zee2/314b3c105a653bb7ce3e34d562b7141b). This is what my LicheePi Zero spits out on boot, using the kernel, U-Boot, and rootfs described in this tutorial.
+
+## Time to explore
+
+Have fun with your Busybox environment! You can set a fun message of the day (displayed on bootup) by creating a file in `/etc/motd`. The popular editor `vi` should be installed by default, but it is a stripped down version and does not include most of the creature comforts you'd expect from a full `vi` installation. Explore the filesystem, play some games, write some Micropython scripts, and practice your shell scripting skills. One fun exercise is to run a script or program and use `top` or `htop` (if you included it in the Busybox configuration) to inspect how much system resources are being used.
+
+## GPIO
+
+GPIO support is included, which allows you to play with the RGB LED mounted on the board. I wrote a small shell script that illustrates how to enable the GPIO, and write various values. If your board is configured similarly to mine, this should cause the RGB LED to flash different colors for an entertaining light show. GPIOs 192, 193, and 194 are the three color channels of the LED.
+
+```bash
+#!/bin/sh
+
+echo 192 > /sys/class/gpio/export
+echo 193 > /sys/class/gpio/export
+echo 194 > /sys/class/gpio/export
+
+echo out > /sys/class/gpio/gpio192/direction
+echo out > /sys/class/gpio/gpio193/direction
+echo out > /sys/class/gpio/gpio194/direction
+
+for i in $(seq 1 1000);
+do
+        echo 0 > /sys/class/gpio/gpio193/value
+        sleep 0.08
+        echo 1 > /sys/class/gpio/gpio193/value
+        echo 0 > /sys/class/gpio/gpio194/value
+        sleep 0.08
+        echo 1 > /sys/class/gpio/gpio194/value
+        echo 0 > /sys/class/gpio/gpio192/value
+        sleep 0.08
+        echo 1 > /sys/class/gpio/gpio192/value
+done
+```
+For extra fun you can make this a startup script, so that you can impress your friends and family (not really, who am I kidding) with your script without needing to log in. (Run this on the LicheePi, of course.)
+
+First, mark the script as executable (you probably already did this)
+
+```bash
+$ chmod +x /path/to/your/script/your_script
+```
+
+At the end of the file named `rcS` in `/etc/init.d`, append the line
+
+```bash
+./etc/init.d/your_script &
+```
+
+Save the file and restart the device. Your script should now begin running, even before root logs in. If your script was my blinky script above, you should be able to see the wonderful blinky lightshow immediately.
