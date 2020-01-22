@@ -5,7 +5,7 @@ title: "Hacking the LicheePi Zero: Crash Course"
 
 The LicheePi Zero is a lovely, tiny, single-board computer, running on the ubiquitous and low-cost Allwinner V3S platform. Extremely cheap single-board computers have exploded in popularity in recent years, even beyond the (in)famous Raspberry Pi. Other, smaller manufacturers have popped up, designing simple SBCs around inexpensive ARM SoCs. For hobbyists and hackers that want a more hands-on and challenging experience than you'd find with a Raspberry Pi, these cheap SoCs are a great hobby project and weekend adventure.
 
-To add to the already significant challenge, most of the (sparse) documentation is in Chinese, and many of the necessary files are hosted on Chinese sites that are difficult to use or access from the States. While some challenges are technical in nature and can provide some value to the intrepid hobbyist, crappy documentation and unresponsive Chinese file-sharing sites are *not* the kind of issues I'd like to let stand. Thus, I wanted to share a guide for my English-speaking friends, serving as a concise tutorial for compiling the Linux kernel, a bootloader, and creating a root filesystem for the board.
+To add to the already significant challenge, most of the (sparse) documentation is in Chinese, and many of the necessary files are hosted on Chinese sites that are difficult to use or access from the States. While some challenges are technical in nature and can provide some value to the intrepid hobbyist, inaccessible documentation and unresponsive file-sharing sites are *not* the kind of issues I'd like to let stand. Thus, I wanted to share a guide for my English-speaking friends, serving as a concise tutorial for compiling the Linux kernel, a bootloader, and creating a root filesystem for the board.
 
 ## Background
 
@@ -102,6 +102,13 @@ $ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j8 all
 
 This will also compile the device tree. In a nutshell, the device's hardware setup is described in the `arch/arm/boot/dts/sun8i-v3s-licheepi-zero.dts` file. The compilation process (with `make all`) will compile the `.dts` into a compiled, "binary" `.dtb` file that the bootloader/system can read. We'll be copying this `.dtb` file over to our boot SD card, along with the zImage.
 
+We'll also need to compile/install the kernel modules. In my experience, the device boots fine without performing this step, but kernel modules are important and do need to be copied into the rootfs. Build the modules, and make sure INSTALL_MOD_PATH is set to some empty directory that you can access later. We'll pull the module tree from this directory later.
+
+```bash
+$ sudo make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j8 modules
+$ sudo make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j8 modules_install INSTALL_MOD_PATH=/path/to/some/directory
+```
+
 ## Boot script
 
 To automate U-Boot's boot process, we'll create a small file that serves as an auto-running script. It contains a few U-Boot commands that will run when U-Boot initializes. Create a file called boot.cmd, containing the following U-Boot commands:
@@ -171,14 +178,14 @@ One particular area of note are the options for the included Busybox utilties. B
 
 A few that I'd like to recommend:
 
-| Utility                                                                 | Description                                                             |
-|-------------------------------------------------------------------------|-------------------------------------------------------------------------|
-| Target packages --> Interpreter languages and scripting --> micropython | A simplified Python interpreter for embedded machines                   |
-| Target packages --> Shell and utilities --> file                        | Returns information about a file                                        |
-| Target packages --> Shell and utilities --> screen                      | Allows for switching between multiple managed terminal jobs             |
-| Target packages --> Shell and utilities --> ranger                      | An improved file manager; requires additional toolchain support, though |
-| Target packages --> System tools --> htop                               | An improved process viewer/manager                                      |
-| Target packages --> Text editors and viewers --> nano                   | A popular editor; requires wchar support                                |
+| Utility                                                                   | Description                                                             |
+|---------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| Target packages --> Interpreter languages and scripting --> `micropython` | A simplified Python interpreter for embedded machines                   |
+| Target packages --> Shell and utilities --> `file`                        | Returns information about a file                                        |
+| Target packages --> Shell and utilities --> `screen`                      | Allows for switching between multiple managed terminal jobs             |
+| Target packages --> Shell and utilities --> `ranger`                      | An improved file manager; requires additional toolchain support, though |
+| Target packages --> System tools --> `htop`                               | An improved process viewer/manager                                      |
+| Target packages --> Text editors and viewers --> `nano`                   | A popular editor; requires wchar support                                |
 | Target packages --> Games --> *                                         | Install a few games for fun!                                            |
 
 Once you've configured the Buildroot system with your favorite BusyBox utilities, build the filesystem:
@@ -239,3 +246,131 @@ Next, we need to create a few partitions; notably, we'll make a small boot parti
 - zImage is the kernel image we compiled earlier. It's a compressed form of the binary, which is decompressed at boot.
 - The device tree binary is that compiled `.dtb` file we generated earlier. It's placed alongside the kernel image in the boot partition.
 - The boot script, as described above, will be run by U-Boot at startup.
+
+The layout of these partitions and the files within:
+
+| Partition                                                | Contents                                                            |
+|----------------------------------------------------------|---------------------------------------------------------------------|
+| Boot partition (VFAT) (mmc 0:1)                          | `zImage`, `boot.scr`, `sun8i-v3s-licheepi-zero.dtb`                 |
+| Root partition (EXT4) (mmc 0:2)                          | Extracted/un-archived root filesystem                               |
+
+To create these partitions, we'll use `blockdev`, which is a utility for controlling block devices, and `sfdisk`, a partition table utility.
+
+```bash
+$ sudo blockdev --rereadpt ${card}
+$ cat <<EOT | sudo sfdisk ${card}
+1,16,c
+,,L
+EOT
+```
+
+For those unaware, the `sfdisk` command behaves a little weirdly; you'll type in the partition formatting after you run the second command, but they're not commands: `sfdisk` just expects the formatting data as part of its standard input.
+
+Creating the filesystems themselves is slightly different depending on whether you've mounted the SD card through a USB reader or as an MMC block device, so, only execute the one command that is relevant to your system.
+
+### *Either* MMC:
+```bash
+$ mkfs.vfat ${card}p1
+$ mkfs.ext4 ${card}p2
+```
+
+### *or* USB:
+```bash
+$ mkfs.vfat ${card}1
+$ mkfs.ext4 ${card}2
+```
+
+Now that we have the partitions created, and the filesystems created within, it's time to copy our files onto these filesystems. First, we mount the SD card's boot partition to our host system. Again, the device name is slightly different depending on whether you're using a USB reader or not; only execute one of these commands.
+
+
+### *Either* MMC:
+```bash
+$ sudo mount ${card}p1 /mnt/
+```
+### *or* USB:
+```bash
+$ sudo mount ${card}1 /mnt/
+```
+
+Then, we copy our files to the boot partition.
+
+```bash
+$ sudo cp /path/to/your/linux/repo/arch/arm/boot/zImage /mnt/
+$ sudo cp /path/to/your/script/boot.scr /mnt/
+$ sudo cp /path/to/your/linux/repo/arch/arm/boot/dts/sun8i-v3s-licheepi-zero.dtb /mnt/
+```
+
+Then, sync all changes and unmount the SD card.
+
+```bash
+sync
+sudo umount /dev/
+```
+
+At this point, you can actually remove the SD card, place it in your device, and boot to the bootloader! It'll fail to boot the OS, of course, as we haven't copied the rootfs yet, but it would be a good smoketest. Skip to the "FTDI/UART" section if you'd like to test this.
+
+Next, we can mount the main ext4 partition and copy the rootfs we created.
+
+### *Either* MMC:
+```bash
+$ sudo mount ${card}p2 /mnt/
+```
+### *or* USB:
+```bash
+$ sudo mount ${card}2 /mnt/
+```
+
+The rootfs that we built with Buildroot should be in the `/path/to/your/buildroot/output/images` folder. Remove it from the .tar and copy it to the SD card with:
+
+```bash
+$ tar -C /mnt/ -xf images/rootfs.tar
+```
+
+Inspect the SD card and verify that the root filesystem has been correctly extracted. Running `ls /mnt/` should return something that looks generally like this:
+```
+bin  etc  lib32    media  opt   root  sbin  tmp  var
+dev  lib  linuxrc  mnt    proc  run   sys   usr
+```
+
+If not, remove everything in the SD card (`sudo rm -rf /mnt/*`) and try again.
+
+Next, we'll copy over the kernel modules we compiled earlier. Recall the directory you compiled them into, and run the following commands:
+
+```bash
+sudo mkdir -p /mnt/lib/modules
+sudo rm -rf /mnt/lib/modules/
+sudo cp -r <YOUR_MODULE_DIRECTORY>/output/lib /mnt/
+```
+
+The `rm -rf` will simply clean the existing /mnt/lib/modules folder if one exists. If you've been following the tutorial, the rootfs we built with Buildroot does not include any in the image; so this is unnecessary. However, if you were using some other rootfs from some other source, there may be some pre-existing files. Removing them will provide a clean slate for us.
+
+The rootfs copying process is now done! If everything worked correctly, you should now have a fully functioning SD card for your device.
+
+Sync and unmount the SD card when you're done.
+
+```bash
+sync
+sudo umount /dev/
+```
+
+### FTDI/UART
+
+The time has come; we can now boot our system and see the fruits of our effort. Plug in and install your FTDI breakout (or other serial adapter solution) on the workstation. We'll be using `minicom` as a feature-rich and easy-to-use serial monitor; there are a plethora of other ways to talk to a serial port, but I've found `minicom` to be excellent. Install it with your package manager of choice if you don't already have it.
+
+Run `minicom` and configure the terminal to use `/dev/ttyUSB0` (for an FTDI breakout) with 115200 baud, 8N1, with no hardware flow control or software flow control. You can access the `minicom` serial configuration menu by pressing ctrl-A, then Z, after running it. Open the configuration with `O`, navigate to "Serial port setup" and verify your serial settings look like the picture.
+```
++-----------------------------------------------------------------------+
+| A -    Serial Device      : /dev/ttyUSB0                              |
+| B - Lockfile Location     : /var/lock                                 |
+| C -   Callin Program      :                                           |
+| D -  Callout Program      :                                           |
+| E -    Bps/Par/Bits       : 115200 8N1                                |
+| F - Hardware Flow Control : No                                        |
+| G - Software Flow Control : No                                        |
+|                                                                       |
+|    Change which setting?                                              |
++-----------------------------------------------------------------------+
+```
+Once the serial port has been configured, connect your serial adapter to the board. Look for the pins labeled **U0T** and **R**. These are the Tx and Rx pins, respectively, of the default UART0. Connect the serial adapter (Tx to Rx, and Rx to Tx), and plug the LicheePi Zero into USB power.
+
+If everything is normal, you should first see the U-Boot terminal briefly, before it auto-boots into our system. You should see a string of kernel boot messages, before you're dumped to a root terminal.
