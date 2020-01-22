@@ -1,4 +1,9 @@
 
+.no-fx {
+    border-radius: 0px;
+    box-shadow: unset;
+}
+
 .date-header-thing {
     display: -webkit-box;   
 	display: -moz-box; 
