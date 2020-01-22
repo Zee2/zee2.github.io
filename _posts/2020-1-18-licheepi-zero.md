@@ -146,15 +146,40 @@ There are several ways to create a rootfs. I've only had success with two method
 
 Download the [latest stable release of Buildroot](https://buildroot.org/download.html), extract, and install the application. 
 
-*WIP: Add Buildroot screenshots.*
-
 We'll select a few options for our Buildroot configuration. Run the menu-based configurator.
 
 ```bash
 $ make menuconfig
 ```
 
-*WIP: Add Buildroot configurations, once I get back to my Linux machine!*
+![Buildroot screenshot](../images/buildroot_screenshot.png)
+
+Select the following options. If something else catches your eye, and you don't think it would interfere with your system, feel free to select that too.
+
+| Config option                                            | Value                                                               |
+|----------------------------------------------------------|---------------------------------------------------------------------|
+| Target options --> Target Architecture                   | ARM (little endian)                                                 |
+| Target options --> Target Architecture Variant           | cortex-A7                                                           |
+| Target options --> Target ABI                            | EABIhf                                                              |
+| Target options --> Floating point strategy               | VFPv4                                                               |
+| System configuration --> System hostname                 | Whatever you'd like!                                                |
+| System configuration --> System banner                   | Whatever you'd like!                                                |
+| System configuration --> Enable root login with password | Check if you'd like to secure the root login.                       |
+| System configuration --> Root password                   | If you checked the above, this is the password to the root account. |
+
+One particular area of note are the options for the included Busybox utilties. Busybox provides a set of commonly used utilities, but some are provided optionally.
+
+A few that I'd like to recommend:
+
+| Utility                                                                 | Description                                                             |
+|-------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| Target packages --> Interpreter languages and scripting --> micropython | A simplified Python interpreter for embedded machines                   |
+| Target packages --> Shell and utilities --> file                        | Returns information about a file                                        |
+| Target packages --> Shell and utilities --> screen                      | Allows for switching between multiple managed terminal jobs             |
+| Target packages --> Shell and utilities --> ranger                      | An improved file manager; requires additional toolchain support, though |
+| Target packages --> System tools --> htop                               | An improved process viewer/manager                                      |
+| Target packages --> Text editors and viewers --> nano                   | A popular editor; requires wchar support                                |
+| Target packages --> Games --> *                                         | Install a few games for fun!                                            |
 
 Once you've configured the Buildroot system with your favorite BusyBox utilities, build the filesystem:
 
