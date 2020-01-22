@@ -100,7 +100,7 @@ If this succeeds, you're ready to compile your kernel. Make note of how many thr
 $ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j8 all
 ```
 
-THis will also compile the device tree. In a nutshell, the device's hardware setup is described in the `arch/arm/boot/dts/sun8i-v3s-licheepi-zero.dts` file. The compilation process (with `make all`) will compile the `.dts` into a compiled, "binary" `.dtb` file that the bootloader/system can read. We'll be copying this `.dtb` file over to our boot SD card, along with the zImage.
+This will also compile the device tree. In a nutshell, the device's hardware setup is described in the `arch/arm/boot/dts/sun8i-v3s-licheepi-zero.dts` file. The compilation process (with `make all`) will compile the `.dts` into a compiled, "binary" `.dtb` file that the bootloader/system can read. We'll be copying this `.dtb` file over to our boot SD card, along with the zImage.
 
 ## Boot script
 
