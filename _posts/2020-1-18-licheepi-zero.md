@@ -359,17 +359,17 @@ The time has come; we can now boot our system and see the fruits of our effort. 
 
 Run `minicom` and configure the terminal to use `/dev/ttyUSB0` (for an FTDI breakout) with 115200 baud, 8N1, with no hardware flow control or software flow control. You can access the `minicom` serial configuration menu by pressing ctrl-A, then Z, after running it. Open the configuration with `O`, navigate to "Serial port setup" and verify your serial settings look like the picture.
 ```
-+-----------------------------------------------------------------------+
-| A -    Serial Device      : /dev/ttyUSB0                              |
-| B - Lockfile Location     : /var/lock                                 |
-| C -   Callin Program      :                                           |
-| D -  Callout Program      :                                           |
-| E -    Bps/Par/Bits       : 115200 8N1                                |
-| F - Hardware Flow Control : No                                        |
-| G - Software Flow Control : No                                        |
-|                                                                       |
-|    Change which setting?                                              |
-+-----------------------------------------------------------------------+
++------------------------------------------+
+| A -    Serial Device      : /dev/ttyUSB0 |
+| B - Lockfile Location     : /var/lock    |
+| C -   Callin Program      :              |
+| D -  Callout Program      :              |
+| E -    Bps/Par/Bits       : 115200 8N1   |
+| F - Hardware Flow Control : No           |
+| G - Software Flow Control : No           |
+|                                          |
+|    Change which setting?                 |
++------------------------------------------+
 ```
 Once the serial port has been configured, connect your serial adapter to the board. Look for the pins labeled **U0T** and **R**. These are the Tx and Rx pins, respectively, of the default UART0. Connect the serial adapter (Tx to Rx, and Rx to Tx), and plug the LicheePi Zero into USB power.
 
