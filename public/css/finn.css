@@ -86,9 +86,11 @@
 }
 
 .sidebar-about img {
-    height: 0.8em;
+    height: 0.75em;
     display: inline-block;
     margin: auto;
+    padding-left: 0.2em;
+    padding-right: 0.2em;
     /*padding-right: 0.2em;
     padding-left: 0.2em;
     transform: translate(0em, 0.05em);*/
