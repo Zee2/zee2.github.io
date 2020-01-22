@@ -159,7 +159,7 @@ We'll select a few options for our Buildroot configuration. Run the menu-based c
 $ make menuconfig
 ```
 
-![Buildroot screenshot](../images/buildroot_screenshot.png)
+![Buildroot screenshot](/images/buildroot_screenshot.png)
 
 Select the following options. If something else catches your eye, and you don't think it would interfere with your system, feel free to select that too.
 
@@ -373,6 +373,6 @@ Run `minicom` and configure the terminal to use `/dev/ttyUSB0` (for an FTDI brea
 ```
 Once the serial port has been configured, connect your serial adapter to the board. Look for the pins labeled **U0T** and **R**. These are the Tx and Rx pins, respectively, of the default UART0. Connect the serial adapter (Tx to Rx, and Rx to Tx), and plug the LicheePi Zero into USB power.
 
-![Location of UART0 on LicheePi Zero](../images/uart0.jpg)
+![Location of UART0 on LicheePi Zero](/images/uart0.jpg)
 
 If everything is normal, you should first see the U-Boot terminal briefly, before it auto-boots into our system. You should see a string of kernel boot messages, before you're dumped to a root terminal.
