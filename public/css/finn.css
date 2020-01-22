@@ -89,9 +89,9 @@
     height: 0.8em;
     display: inline-block;
     margin: auto;
-    padding-right: 0.2em;
+    /*padding-right: 0.2em;
     padding-left: 0.2em;
-    transform: translate(0em, 0.05em);
+    transform: translate(0em, 0.05em);*/
 }
 
 .dots {
