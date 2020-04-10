@@ -6,6 +6,16 @@
     box-shadow: 2px 2px 40px rgba(0,0,0,0.15);
 }
 
+.dots-maxheight {
+    height: fit-content;
+}
+
+.dots-maxheight-centered {
+    height: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .no-fx {
     border-radius: 0px;
     box-shadow: unset;
@@ -82,7 +92,10 @@
 
 .circles-bottom {
     margin: auto;
-    padding-top: 3em;
+    padding-top: 1.5em;
+    margin-left: auto;
+    margin-right: auto;
+    height: fit-content;
 }
 
 .sidebar-about img {
