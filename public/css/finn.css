@@ -2,6 +2,15 @@
 
 
 .content-wrapper img {
+    margin: auto;
+    border-radius: 10px;
+    box-shadow: 2px 2px 40px rgba(0,0,0,0.15);
+}
+
+.content-wrapper video {
+    margin: auto;
+    max-width: 100%;
+    margin-bottom: 10px;
     border-radius: 10px;
     box-shadow: 2px 2px 40px rgba(0,0,0,0.15);
 }

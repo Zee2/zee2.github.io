@@ -54,9 +54,10 @@ html {
  */
 
 .sidebar {
-  text-align: center;
+  text-align: left;
   padding: 2rem 1rem;
   color: rgba(255,255,255,.5);
+  font-size: 16px;
   /*background-color: #202020;*/
 }
 @media (min-width: 48em) {
@@ -86,8 +87,9 @@ html {
 }
 
 .lead {
-  font-size: 1.0rem;
-  line-height: 1.2rem;
+  padding-top: 20px;
+  font-size: 16px;
+  line-height: 18px;
 }
 
 /* Sidebar nav */
@@ -146,6 +148,7 @@ a.sidebar-nav-item:focus {
 
 @media (min-width: 64em) {
   .content {
+    font-size: 16px;
     margin-left: 22rem;
     margin-right: 4rem;
   }
