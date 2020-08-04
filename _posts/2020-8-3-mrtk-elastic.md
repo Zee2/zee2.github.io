@@ -32,7 +32,19 @@ One of the greatest advantages of the elastic simulation system is the reactive,
 
 The one-dimensional world is boring. We're here to go boldly forth into the world of 3D interfaces, and 3D springs are here to help. From left to right, we have 3D snapping interval springs, a volume spring extent, and (gasp) a 4-dimensional quaternion spring (more on that later!)
 
-![GIF](/images/elastic3.gif) | ![GIF](/images/elastic4.gif) | ![GIF](/images/elastic5.gif)
+<p>
+    <div class="row" style="display:flex;">
+        <div class="column" style="flex:1.11; margin:0.5em">
+            <img src="/images/elastic3.gif" >
+        </div>
+        <div class="column" style="flex:1.0; margin:0.5em">
+            <img src="/images/elastic4.gif" >
+        </div>
+        <div class="column" style="flex:1.1; margin:0.5em">
+            <img src="/images/elastic5.gif" >
+        </div>
+    </div>
+</p>
 
 The three-dimensional and 4-dimensional elastic systems can be combined to drive fully elastic-enabled object manipulation.
 

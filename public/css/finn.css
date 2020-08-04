@@ -1,5 +1,17 @@
 
 
+@media (min-width: 20em) {
+    .row {
+        flex-direction: column;
+    }
+}
+
+
+@media (min-width: 58em) {
+    .row {
+        flex-direction: row;
+    }
+}
 
 .content-wrapper img {
     margin: auto;
