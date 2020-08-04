@@ -158,19 +158,22 @@ pre {
 code {
   padding: .25em .5em;
   font-size: 85%;
-  
   color: #618abf;
   background-color: #f9f9f9;
   border-radius: 10px;
 }
 pre {
+  width: 100%;
+  height: auto;
   display: block;
   margin-top: 0;
   margin-bottom: 1rem;
   padding: 1rem;
   font-size: .8rem;
   line-height: 1.4;
-  overflow-x: scroll;
+  
+  overflow-y: auto;
+  overflow-x: auto;
   /* white-space: pre;
   white-space: pre-wrap;
   word-break: break-all;
