@@ -46,7 +46,7 @@ The one-dimensional world is boring. We're here to go boldly forth into the worl
     </div>
 </p>
 
-The three-dimensional and 4-dimensional elastic systems can be combined to drive fully elastic-enabled object manipulation.
+The three-dimensional and four-dimensional elastic systems can be combined to drive fully elastic-enabled object manipulation.
 
 ![GIF](/images/elastic6.gif)
 
@@ -83,7 +83,7 @@ var elasticExtent = new LinearElasticExtent
 
 If the system is stretched past the min or max end-cap, it will be forced back within the extent according to the `EndK` constant. If any snap points are configured, the system will experience a force driving it towards the nearest snap point, according to a polynomial function. You can play with the snap function here in the embedded Desmos graph; `r` is the radius of the snapping point, and `k` is the snapping spring constant.
 
-<iframe src="https://www.desmos.com/calculator/i5felw71t9" width="100%" style="min-height:400px"></iframe>
+<iframe src="https://www.desmos.com/calculator/bepaf4yrdx" width="100%" style="min-height:400px"></iframe>
 
 &nbsp;
 
@@ -116,18 +116,42 @@ Going even further down the rabbit hole (!), a quaternion elastic system require
 // A 4D quaternion extent!
 var elasticExtent = new QuaternionElasticExtent
 {
-    StretchBounds = new Bounds
-    (
-        Vector3.zero, // Extent centered at (0,0,0)
-        Vector3.one   // Cube-shaped, 1-unit wide
-    ),
-    UseBounds = true,
     SnapPoints = new Vector3[]
     {
-        new Vector3(0.2f, 0.2f, 0.2f) // Snap interval
+        new Vector3(45, 45, 45) // Euler angles
     },
     RepeatSnapPoints = true, // Snap point tiled across extent
-    SnapRadius = 0.1f, // Maximum range of the snap force
+    SnapRadius = 22.5f, // Maximum range of the snap force
 };
 ```
 
+Here, our quaternion extent appears quite similar to the volume extent; but instead of the snap points specified as 3D points in a bounding volume, they are specified as the Euler angles of the snap points along a sphere. The math is quite a bit more complicated internally, but give similarly intuitive results to the 1D and 3D implementations.
+
+Driving these elastic systems is very easy; as they do not depend on Unity's internal physics systems, you can call their `ComputeIteration()` method at any time, with any specified `deltaTime`. This allows you to compute many iterations in one frame (useful for unit testing your elastics!) as well as computing the equilibrium value of a system.
+
+```c#
+// Computes one Unity frame's worth of simulation time.
+var newValue = myElastic.ComputeIteration(goalValue, Time.deltaTime);
+```
+
+```c#
+// We can also compute the equilibrium, while using a custom timestep.
+var simulationTimeStep = 0.1f; // Much bigger than Time.deltaTime!
+while(myElastic.CurrentVelocity() > 0.001f)
+{
+    myElastic.ComputeIteration(goalValue, simulationTimeStep);
+}
+
+// Ta-da!
+var equilibrium = myElastic.CurrentValue();
+```
+
+In some cases, you might like to let the elastic system come to rest, without any goal value. This is useful for when, say, the user lets go of an elastic-driven object. To do so, simply compute the iterations with the current value of the system as the goal value.
+
+```c#
+elasticValue = myElastic.ComputeIteration(elasticValue, Time.deltaTime);
+```
+
+You can check out the pull request that introduced most of these features here: [GitHub](https://github.com/microsoft/MixedRealityToolkit-Unity/pull/8200)
+
+There's been a pretty strong response from the developer community expressing their interest in including these elastic systems in their projects; I hope to hear more about the awesome stuff that people have built with elastic feedback. If you have something to share, feel free to email me or connect with me on LinkedIn or GitHub. Here's to a better, springier future for mixed reality!
