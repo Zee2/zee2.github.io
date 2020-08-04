@@ -17,38 +17,39 @@ Elastic feedback gives virtual objects their own "pull"; they can stretch, fling
 
 I'll start with a visual tour, so that you have a bit of motivation to learn about the math behind these systems later! Firstly, one of the most fun things that can be done with the elastics are origami-style folding menus. By linking the output of the elastic sim with the rotations of these composable menu panels, some really exciting inflation/deflation effects can be achieved.
 
-![GIF](/images/elastic1.gif)
+<video loop autoplay muted src="/images/elastic1.mp4"></video>
+
 <video controls="controls" loop="loop" src="https://dms.licdn.com/playlist/C5605AQELrcTQ0z86MQ/mp4-720p-30fp-crf28/0?e=1596582000&amp;v=beta&amp;t=9h-aOy4VWztNxSsW6Y9t_aGQwRVhz-YSkKx0tAwpTgA" muted="muted" autoplay></video>
 
 This could hypothetically be achieved with a hand-authored animation, but the elastic benefits this by being totally procedural (no artist-authoring needed), and reactive (if the button was pressed in the middle of the inflation, the panel would seamlessly deflate without needing to transition between animations).
 
 Here, the flipping UI panel effect is combined with a scaling effect, constrained to hand/palm rotation and finger angle.
 
-![GIF](/images/elastic7.gif)
+<video loop autoplay muted src="/images/elastic7.mp4"></video>
 
 One of the greatest advantages of the elastic simulation system is the reactive, dynamic nature of the elastic systems. User input drives the elastic system, and the system will simulate the response of the elastic material to the user. Here, a drawstring-like element is driven by the user input to stretch, snap, and wobble into place.
 
-![GIF](/images/elastic2.gif)
+<video loop autoplay muted src="/images/elastic2.mp4"></video>
 
 The one-dimensional world is boring. We're here to go boldly forth into the world of 3D interfaces, and 3D springs are here to help. From left to right, we have 3D snapping interval springs, a volume spring extent, and (gasp) a 4-dimensional quaternion spring (more on that later!)
 
 
 
-![GIF](/images/elastic4.gif)
+<video loop autoplay muted src="/images/elastic4.mp4"></video>
 <p>
     <div class="row" style="display:flex;">
         <div class="column" style="flex:1.1; margin:0.5em">
-            <img src="/images/elastic3.gif" >
+            <video loop autoplay muted src="/images/elastic3.mp4"></video>
         </div>
         <div class="column" style="flex:1.09; margin:0.5em">
-            <img src="/images/elastic5.gif" >
+            <video loop autoplay muted src="/images/elastic5.mp4"></video>
         </div>
     </div>
 </p>
 
 The three-dimensional and four-dimensional elastic systems can be combined to drive fully elastic-enabled object manipulation.
 
-![GIF](/images/elastic6.gif)
+<video loop autoplay muted src="/images/elastic6.mp4"></video>
 
 Now that (I hope) you're motivated by these fun examples, I'll talk a little more about how they're made and the math that drives them.
 
