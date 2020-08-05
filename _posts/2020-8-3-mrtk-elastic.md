@@ -19,7 +19,7 @@ I'll start with a visual tour, so that you have a bit of motivation to learn abo
 
 <video loop autoplay muted src="/images/elastic1.mp4"></video>
 
-<video controls="controls" loop="loop" src="https://dms.licdn.com/playlist/C5605AQELrcTQ0z86MQ/mp4-720p-30fp-crf28/0?e=1596582000&amp;v=beta&amp;t=9h-aOy4VWztNxSsW6Y9t_aGQwRVhz-YSkKx0tAwpTgA" muted="muted" autoplay></video>
+<video loop autoplay muted src="/images/demo.mp4"></video>
 
 This could hypothetically be achieved with a hand-authored animation, but the elastic benefits this by being totally procedural (no artist-authoring needed), and reactive (if the button was pressed in the middle of the inflation, the panel would seamlessly deflate without needing to transition between animations).
 
